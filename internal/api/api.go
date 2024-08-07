@@ -55,7 +55,7 @@ func NewAPIHandler(q *pgstore.Queries) http.Handler {
 	}))
 
 	// Webhook
-	router.Get("/subscribe/{room_id}", api.handleWebhookSubscription)
+	router.Get("/subscribe/{room_id}", api.handleWebSocketsSubscription)
 
 	// REST API routes definitions
 	router.Route("/api", func(r chi.Router) {
@@ -227,9 +227,9 @@ func (h apiHandler) handleDeleteReactMessageId(w http.ResponseWriter, r *http.Re
 func (h apiHandler) handleAnswerRoomMessageId(w http.ResponseWriter, r *http.Request)  {}
 
 /**
- * Webhook
+ * Websockets
  */
-func (h apiHandler) handleWebhookSubscription(w http.ResponseWriter, r *http.Request) {
+func (h apiHandler) handleWebSocketsSubscription(w http.ResponseWriter, r *http.Request) {
 	rawRoomID := chi.URLParam(r, "room_id")
 	roomID, err := uuid.Parse(rawRoomID)
 	if err != nil {
@@ -282,14 +282,22 @@ func (h apiHandler) handleWebhookSubscription(w http.ResponseWriter, r *http.Req
 
 	// Goroutine to handle WebSocket connection
 	go func() {
-
 		// Cleanup when the goroutine exits
 		defer func() {
+			// cancel the context
 			cancel()
+
+			// delete cliet from subscribers map
 			h.mutex.Lock()
 			delete(h.subscribers[rawRoomID], connection)
 			h.mutex.Unlock()
-			connection.Close()
+
+			// close websocket
+			err := connection.Close()
+			if err != nil {
+				slog.Error("failed to close connection", "error", err)
+			}
+
 			slog.Info("client disconnected", "room_id", rawRoomID, "client_ip", r.RemoteAddr)
 		}()
 
@@ -307,18 +315,6 @@ func (h apiHandler) handleWebhookSubscription(w http.ResponseWriter, r *http.Req
 
 			// Handle the message received from the client, convert bytes to string
 			slog.Info("received message", "room_id", rawRoomID, "client_ip", r.RemoteAddr, "raw_message", string(message))
-
-			//type webhookMessageInput struct {
-			//	Message string `json:"message"`
-			//}
-			//
-			//var jsonMessage webhookMessageInput
-			//if err := json.Unmarshal(message, &jsonMessage); err != nil {
-			//	slog.Error("failed to unmarshal message", "error", err)
-			//	continue
-			//}
-			//
-			//slog.Info("received message", "room_id", rawRoomID, "client_ip", r.RemoteAddr, "message", jsonMessage.Message)
 		}
 	}()
 
