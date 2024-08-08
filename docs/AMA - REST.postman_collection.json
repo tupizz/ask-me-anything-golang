@@ -1,0 +1,249 @@
+{
+	"info": {
+		"_postman_id": "520dcf53-90c2-444a-b311-58ba2c2b83d0",
+		"name": "AMA - Project",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24777268"
+	},
+	"item": [
+		{
+			"name": "Create room",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"theme\": \"my_first_room\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/rooms",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"rooms"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all Rooms",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/rooms",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"rooms"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all Room Messages",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/rooms/:roomId/messages",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"rooms",
+						":roomId",
+						"messages"
+					],
+					"variable": [
+						{
+							"key": "roomId",
+							"value": "3b608f03-884a-4a96-998c-ef3bd6a73dc4"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Message From Specific Room",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/rooms/:roomId/messages/:messageId",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"rooms",
+						":roomId",
+						"messages",
+						":messageId"
+					],
+					"variable": [
+						{
+							"key": "roomId",
+							"value": "3b608f03-884a-4a96-998c-ef3bd6a73dc4"
+						},
+						{
+							"key": "messageId",
+							"value": "d57e9320-50d2-4a18-a523-84e0a7fa596d"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "React to Message",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/rooms/:roomId/messages/:messageId/react",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"rooms",
+						":roomId",
+						"messages",
+						":messageId",
+						"react"
+					],
+					"variable": [
+						{
+							"key": "roomId",
+							"value": "3b608f03-884a-4a96-998c-ef3bd6a73dc4"
+						},
+						{
+							"key": "messageId",
+							"value": "d57e9320-50d2-4a18-a523-84e0a7fa596d"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Remove reaction from Message",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/rooms/:roomId/messages/:messageId/react",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"rooms",
+						":roomId",
+						"messages",
+						":messageId",
+						"react"
+					],
+					"variable": [
+						{
+							"key": "roomId",
+							"value": "3b608f03-884a-4a96-998c-ef3bd6a73dc4"
+						},
+						{
+							"key": "messageId",
+							"value": "d57e9320-50d2-4a18-a523-84e0a7fa596d"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Handle Answer",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/rooms/:roomId/messages/:messageId/answer",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"rooms",
+						":roomId",
+						"messages",
+						":messageId",
+						"answer"
+					],
+					"variable": [
+						{
+							"key": "roomId",
+							"value": "3b608f03-884a-4a96-998c-ef3bd6a73dc4"
+						},
+						{
+							"key": "messageId",
+							"value": "d57e9320-50d2-4a18-a523-84e0a7fa596d"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create a new message",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"message\": \"hello world\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/rooms/:room_id/messages",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"rooms",
+						":room_id",
+						"messages"
+					],
+					"variable": [
+						{
+							"key": "room_id",
+							"value": "3b608f03-884a-4a96-998c-ef3bd6a73dc4"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
